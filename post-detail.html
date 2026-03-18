@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Detail | Editorial</title>
+    <!-- Premium Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fdfdfd;
+            --text-main: #1a1a1a;
+            --text-muted: #666666;
+            --accent-color: #0056b3;
+            --border-color: #eeeeee;
+            --card-bg: #ffffff;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+            --max-width: 740px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.8;
+            padding: 60px 20px;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-bottom: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: var(--text-main);
+        }
+
+        .back-link::before {
+            content: '←';
+            margin-right: 8px;
+        }
+        
+        .post-header {
+            margin-bottom: 50px;
+        }
+        
+        .post-meta {
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 15px;
+        }
+        
+        .post-title {
+            font-family: var(--font-serif);
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1.1;
+            margin-bottom: 25px;
+            letter-spacing: -0.02em;
+        }
+
+        .post-author-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 0;
+            margin-bottom: 40px;
+        }
+
+        .author-name {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+        
+        .post-image-container {
+            margin: 40px 0;
+        }
+        
+        .post-image-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        
+        .post-body {
+            font-size: 1.25rem;
+            color: #333;
+            margin-top: 40px;
+            white-space: pre-line;
+            font-family: serif; /* Classic serif body text */
+            line-height: 1.9;
+        }
+
+        /* Comments Section Styling */
+        .comments-header {
+            margin-top: 80px;
+            margin-bottom: 40px;
+            border-top: 2px solid var(--text-main);
+            padding-top: 40px;
+        }
+
+        .comments-title {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .comment {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .comment:last-child {
+            border-bottom: none;
+        }
+
+        .comment-header {
+            margin-bottom: 10px;
+        }
+
+        .comment-author {
+            font-weight: 700;
+            color: var(--text-main);
+            font-size: 1rem;
+        }
+
+        .comment-email {
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .comment-body {
+            font-size: 1.05rem;
+            color: #444;
+            line-height: 1.6;
+        }
+        
+        .loading, .error {
+            text-align: center;
+            padding: 100px 0;
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+        
+        .error {
+            background-color: #fff5f5;
+            color: #c53030;
+            border-radius: 4px;
+            border: 1px solid #feb2b2;
+            padding: 30px;
+        }
+
+        @media (max-width: 600px) {
+            .post-title { font-size: 2.2rem; }
+            body { padding: 40px 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="index.html" class="back-link">Back to Journal</a>
+        </nav>
+        
+        <main id="post-content-container">
+            <div class="loading">Preparing the article...</div>
+        </main>
+
+        <section id="comments-section-container" style="display: none;">
+            <div class="comments-header">
+                <h2 id="comments-title-count" class="comments-title">Comments</h2>
+            </div>
+            <div id="comments-list">
+                <!-- Comments will be loaded here -->
+            </div>
+        </section>
+    </div>
+
+    <script>
+        async function loadPostDetail() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const postId = urlParams.get('id');
+                
+                if (!postId) {
+                    throw new Error('No article ID provided.');
+                }
+                
+                // Fetch post details first
+                const postResponse = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`);
+                if (!postResponse.ok) throw new Error('Article not found or moved.');
+                const post = await postResponse.json();
+                
+                // Fetch user info
+                let authorFullInfo = `Author ID: ${post.userId}`;
+                try {
+                    const userResponse = await fetch(`https://jsonplaceholder.typicode.com/users/${post.userId}`);
+                    if (userResponse.ok) {
+                        const user = await userResponse.json();
+                        authorFullInfo = `By <span class="author-name">${user.name}</span> • @${user.username}`;
+                    }
+                } catch (e) {
+                     console.error("User fetch failed", e);
+                }
+                
+                // Fetch comments
+                const commentsResponse = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`);
+                const comments = await commentsResponse.json();
+                
+                // Image URL
+                const imageUrl = `https://picsum.photos/1200/800?random=${postId}`;
+                
+                const contentContainer = document.getElementById('post-content-container');
+                contentContainer.innerHTML = `
+                    <article>
+                        <header class="post-header">
+                            <div class="post-meta">Story ID: ${post.id} • Archive</div>
+                            <h1 class="post-title">${post.title}</h1>
+                            <div class="post-author-box">
+                                ${authorFullInfo}
+                            </div>
+                        </header>
+                        
+                        <div class="post-image-container">
+                            <img src="${imageUrl}" alt="${post.title}">
+                        </div>
+                        
+                        <div class="post-body">
+                            ${post.body}
+                        </div>
+                    </article>
+                `;
+
+                // Render Comments
+                const commentsSection = document.getElementById('comments-section-container');
+                const commentsList = document.getElementById('comments-list');
+                const commentsTitle = document.getElementById('comments-title-count');
+                
+                commentsSection.style.display = 'block';
+                commentsTitle.innerText = `Discussion (${comments.length})`;
+                
+                let commentsHtml = '';
+                comments.forEach((comment, index) => {
+                    const delay = 0.5 + Math.min(index * 0.1, 1);
+                    commentsHtml += `
+                        <div class="comment" style="opacity: 0; animation: fadeInUp 0.6s ease forwards; animation-delay: ${delay}s">
+                            <div class="comment-header">
+                                <div class="comment-author">${comment.name}</div>
+                                <div class="comment-email">${comment.email}</div>
+                            </div>
+                            <div class="comment-body">${comment.body}</div>
+                        </div>
+                    `;
+                });
+                commentsList.innerHTML = commentsHtml;
+
+            } catch (error) {
+                document.getElementById('post-content-container').innerHTML = `
+                    <div class="error">
+                        <strong>Something went wrong.</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        loadPostDetail();
+    </script>
+</body>
+</html>
+
+
